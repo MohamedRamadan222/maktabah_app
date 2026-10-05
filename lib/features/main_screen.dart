@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/core/theme/app_colors.dart';
+import 'package:maktabah_app/features/bookmarks/presentation/views/book_marks_screen.dart';
+import 'package:maktabah_app/features/home/presentation/views/home_screen.dart';
+import 'package:maktabah_app/features/library/presentation/views/library_screen.dart';
+
+import 'explore/presentation/views/explore_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -11,13 +16,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentPageIndex = 0;
+  int _currentPageIndex = 3;
 
-  final List<Widget> _pages = [
-    const Center(child: Text('علاماتي', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('مكتبتي', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('استكشف', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('الرأيسية', style: TextStyle(fontSize: 24))),
+  List<Widget> get _pages => [
+    const BookMarksScreen(),
+    const LibraryScreen(),
+    const ExploreScreen(),
+    HomeScreen(onExploreTap: () => setState(() => _currentPageIndex = 2)),
   ];
 
   @override
