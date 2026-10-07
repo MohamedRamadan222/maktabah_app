@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maktabah_app/core/theme/app_colors.dart';
 
 import 'features/main_screen.dart';
 
@@ -16,9 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Tajawal',
-        scaffoldBackgroundColor: Color(0xfff3f7fb),
+        scaffoldBackgroundColor: AppColors.pageColor,
         appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xfff3f7fb),
+          backgroundColor: AppColors.pageColor,
           scrolledUnderElevation: 0,
         ),
       ),

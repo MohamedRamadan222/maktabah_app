@@ -42,22 +42,21 @@ class _MainScreenState extends State<MainScreen> {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: 38,
-                  height: 38,
+                  width: 37,
+                  height: 37,
                   padding: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                   child: CircleAvatar(
-                    backgroundColor: const Color(0xffb58b43)
-                        .withValues(alpha: 0.2),
+                    backgroundColor: AppColors.goldColor.withValues(alpha: 0.2),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 3),
                       child: Text(
                         'ق',
                         style: TextStyle(
-                          color: const Color(0xff806641).withValues(alpha: 0.9),
+                          color: const Color(0XFF806641),
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
                         ),
@@ -132,24 +131,28 @@ class _MainScreenState extends State<MainScreen> {
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             backgroundColor: Colors.white,
-            indicatorColor: AppColors.primaryColor.withValues(alpha: 0.2),
-            indicatorShape: const StadiumBorder(),
+            indicatorColor: const Color(0xffE4EEF5),
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
             overlayColor: const WidgetStatePropertyAll(Colors.transparent),
             iconTheme: WidgetStateProperty.resolveWith(
-              (states) => IconThemeData(
+                  (states) => IconThemeData(
                 size: 20,
                 color: states.contains(WidgetState.selected)
                     ? AppColors.primaryColor
-                    : const Color(0xFF617286),
+                    : AppColors.mutedColor,
               ),
             ),
             labelTextStyle: WidgetStateProperty.resolveWith(
-              (states) => TextStyle(
-                fontSize: 12,
-                color: states.contains(WidgetState.selected)
-                    ? AppColors.primaryColor
-                    : const Color(0xFF617286),
-              ),
+                  (states) {
+                final selected = states.contains(WidgetState.selected);
+                return TextStyle(
+                  fontSize: 10,
+                  fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+                  color: selected ? AppColors.primaryColor : AppColors.mutedColor,
+                );
+              },
             ),
           ),
           child: NavigationBar(

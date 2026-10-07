@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:maktabah_app/core/theme/app_colors.dart';
 
 class CategoryItem {
   final String id;
@@ -48,7 +49,7 @@ class _CategoryChipsState extends State<CategoryChips> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF1B2D45) : Colors.white,
+                  color: isSelected ?  AppColors.primaryColor: AppColors.pageColor,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: isSelected

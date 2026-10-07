@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -42,7 +43,7 @@ class HeroBanner extends StatelessWidget {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 130 * scale,
+                        width: 160 * scale,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +86,7 @@ class HeroBanner extends StatelessWidget {
                               style: FilledButton.styleFrom(
                                 backgroundColor: const Color(0xff172D46),
                                 foregroundColor: Colors.white,
-                                minimumSize: Size(117 * scale, 35 * scale),
+                                minimumSize: Size(112 * scale, 40 * scale),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 12 * scale,
                                   vertical: 8 * scale,
@@ -109,7 +110,10 @@ class HeroBanner extends StatelessWidget {
                                     ),
                                   ),
                                   Gap(8 * scale),
-                                  Icon(LucideIcons.arrowLeft, size: 12 * scale),
+                                  Icon(
+                                    CupertinoIcons.arrow_left,
+                                    size: 11 * scale,
+                                  ),
                                 ],
                               ),
                             ),
@@ -119,22 +123,7 @@ class HeroBanner extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                           height: 139 * scale,
-                          child: Center(
-                            child: Image.network(
-                              'https://pngimg.com/uploads/book/book_PNG2111.png',
-                              width: 139 * scale,
-                              height: 139 * scale,
-                              fit: BoxFit.contain,
-                              semanticLabel: 'كتاب',
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Icon(
-                                    LucideIcons.bookOpen,
-                                    size: 60 * scale,
-                                    color: const Color(0xff172D46),
-                                    semanticLabel: 'كتاب',
-                                  ),
-                            ),
-                          ),
+                          child: Center(child: _BooksStack(scale: scale)),
                         ),
                       ),
                     ],
@@ -157,3 +146,69 @@ Widget _ring(double size) => Container(
     border: Border.all(color: const Color(0xffCFDFE9), width: 0.8),
   ),
 );
+
+class _BooksStack extends StatelessWidget {
+  final double scale;
+
+  const _BooksStack({required this.scale});
+
+  // بدّل الروابط دي وقت الربط (ورا-شمال، ورا-يمين، قدام)
+  static const _urls = [
+    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+  ];
+
+  Widget _book(
+    String url,
+    double angle,
+    Offset offset, {
+    double w = 84,
+    double h = 118,
+  }) {
+    return Transform.translate(
+      offset: offset * scale,
+      child: Transform.rotate(
+        angle: angle,
+        child: Container(
+          width: w * scale,
+          height: h * scale,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x33000000),
+                blurRadius: 8,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: Image.network(url, fit: BoxFit.cover),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150 * scale,
+      height: 139 * scale,
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          // البيج: ورا شمال
+          _book(_urls[0], -0.17, const Offset(-20, 6)),
+          // الغامق: ورا يمين
+          _book(_urls[1], 0.30, const Offset(24, 4)),
+          // اللي قدام
+          _book(_urls[2], -0.10, const Offset(-2, -6), w: 88, h: 124),
+        ],
+      ),
+    );
+  }
+}

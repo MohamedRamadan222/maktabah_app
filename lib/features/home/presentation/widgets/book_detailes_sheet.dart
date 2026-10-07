@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/constants/common/show_simple_snackbar.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../reader/presentation/views/reader.dart';
 
-class BookDetailsSheet extends StatelessWidget {
+class BookDetailsSheet extends StatefulWidget {
   const BookDetailsSheet({super.key});
+
+  @override
+  State<BookDetailsSheet> createState() => _BookDetailsSheetState();
+}
+
+class _BookDetailsSheetState extends State<BookDetailsSheet> {
+  bool isInLibrary = false;
 
   @override
   Widget build(BuildContext context) {
     final buttonStyle = OutlinedButton.styleFrom(
       foregroundColor: const Color(0xFF32679D),
-      minimumSize: const Size.fromHeight(44),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      minimumSize: const Size.fromHeight(48),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
       textStyle: Theme.of(context).textTheme.labelLarge
           ?.copyWith(fontSize: 12, fontWeight: FontWeight.w700),
       side: const BorderSide(color: Color(0xFFCFDFEF)),
@@ -36,10 +45,10 @@ class BookDetailsSheet extends StatelessWidget {
                     Column(
                       children: [
                         Container(
-                          width: 32,
+                          width: 40,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFC5D2DE),
+                            color: const Color(0xFFD5DFE8),
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
@@ -47,8 +56,8 @@ class BookDetailsSheet extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 95,
-                              height: 136,
+                              width: 105,
+                              height: 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
                                 boxShadow: const [
@@ -158,7 +167,7 @@ class BookDetailsSheet extends StatelessWidget {
               SafeArea(
                 top: false,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                  padding: const EdgeInsets.fromLTRB(20, 26, 20, 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -178,7 +187,7 @@ class BookDetailsSheet extends StatelessWidget {
                       const Gap(20),
                       const Divider(height: 1, color: AppColors.borderColor),
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 18),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -194,7 +203,14 @@ class BookDetailsSheet extends StatelessWidget {
                         children: [
                           Expanded(
                             child: FilledButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const ReadBook(),
+                                  ),
+                                );
+                              },
                               style: buttonStyle.copyWith(
                                 backgroundColor: const WidgetStatePropertyAll(
                                   AppColors.primaryColor,
@@ -206,17 +222,26 @@ class BookDetailsSheet extends StatelessWidget {
                                   BorderSide.none,
                                 ),
                               ),
-                              icon: const Icon(LucideIcons.bookOpen, size: 16),
+                              icon: const Icon(LucideIcons.bookText, size: 16),
                               label: const Text('متابعة القراءة'),
                             ),
                           ),
                           const Gap(9),
                           Expanded(
                             child: OutlinedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                   showSimpleSnackBar(context, isAdded: !isInLibrary);
+                                  isInLibrary = !isInLibrary;
+                                });
+                              },
                               style: buttonStyle,
-                              icon: const Icon(LucideIcons.bookmark, size: 16),
-                              label: const Text('أضف إلى مكتبتي'),
+                              icon: isInLibrary
+                                  ? const Icon(LucideIcons.check, size: 16)
+                                  : const Icon(LucideIcons.bookmark, size: 16),
+                              label: isInLibrary
+                                  ? const Text('في مكتبتي')
+                                  : const Text('أضف إلى مكتبتي'),
                             ),
                           ),
                         ],
@@ -229,7 +254,7 @@ class BookDetailsSheet extends StatelessWidget {
                           style: TextStyle(fontSize: 9),
                         ),
                       ),
-                      const Gap(15)
+                      const Gap(15),
                     ],
                   ),
                 ),
@@ -263,7 +288,7 @@ class _BookStat extends StatelessWidget {
               color: AppColors.primaryColor,
             ),
           ),
-          const Gap(4),
+          const Gap(6),
           Text(
             label,
             textAlign: TextAlign.center,

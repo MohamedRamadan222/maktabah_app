@@ -151,17 +151,20 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Gap(15),
                     // books list
-                    SizedBox(
-                      height: 270,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        separatorBuilder: (_, _) => const Gap(14),
-                        itemBuilder: (_, i) => const BookCard(
-                          title: 'على مهل',
-                          author: 'نور إبراهيم',
-                          rating: '٤٫٦',
-                          imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: SizedBox(
+                        height: 270,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          separatorBuilder: (_, _) => const Gap(14),
+                          itemBuilder: (_, i) => const BookCard(
+                            title: 'على مهل',
+                            author: 'نور إبراهيم',
+                            rating: '٤٫٦',
+                            imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+                          ),
                         ),
                       ),
                     ),

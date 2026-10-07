@@ -20,7 +20,6 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 13),
         child: Column(
           children: [
-            CustomTextFromField(),
             const Gap(24),
             Expanded(
               child: SingleChildScrollView(

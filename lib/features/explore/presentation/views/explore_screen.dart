@@ -79,25 +79,28 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       ),
                     ),
                     const Gap(20),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: 5,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 18,
-                            mainAxisSpacing: 14,
-                            mainAxisExtent: 315,
-                          ),
-                      itemBuilder: (context, index) => const BookCard(
-                        title: 'على مهل',
-                        author: 'نور إبراهيم',
-                        rating: '٤٫٦',
-                        imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-                        width: 170,
-                        height: 240,
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: 5,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 18,
+                              mainAxisSpacing: 14,
+                              mainAxisExtent: 315,
+                            ),
+                        itemBuilder: (context, index) => const BookCard(
+                          title: 'على مهل',
+                          author: 'نور إبراهيم',
+                          rating: '٤٫٦',
+                          imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+                          width: 170,
+                          height: 240,
+                        ),
                       ),
                     ),
                   ],
