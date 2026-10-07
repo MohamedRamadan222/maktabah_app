@@ -6,7 +6,6 @@ import 'package:maktabah_app/features/home/presentation/widgets/book_card.dart';
 
 import '../../../../core/constants/common/custom_text_from_field.dart';
 import '../../../../core/constants/common/screen_header.dart';
-import '../../../home/presentation/widgets/book_detailes_sheet.dart';
 import '../../../home/presentation/widgets/categores_items.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -92,31 +91,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             mainAxisSpacing: 14,
                             mainAxisExtent: 315,
                           ),
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useSafeArea: true,
-                            constraints: const BoxConstraints(maxWidth: 480),
-                            clipBehavior: Clip.antiAlias,
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(24),
-                              ),
-                            ),
-                            builder: (_) => const BookDetailsSheet(),
-                          );
-                        },
-                        child: const BookCard(
-                          title: 'على مهل',
-                          author: 'نور إبراهيم',
-                          rating: '٤٫٦',
-                          imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-                          width: 170,
-                          height: 240,
-                        ),
+                      itemBuilder: (context, index) => const BookCard(
+                        title: 'على مهل',
+                        author: 'نور إبراهيم',
+                        rating: '٤٫٦',
+                        imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+                        width: 170,
+                        height: 240,
                       ),
                     ),
                   ],
