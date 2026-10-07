@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Tajawal',
         scaffoldBackgroundColor: Color(0xfff3f7fb),
-        appBarTheme: AppBarTheme(backgroundColor: Color(0xfff3f7fb)),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color(0xfff3f7fb),
+          scrolledUnderElevation: 0,
+        ),
       ),
       home: MainScreen(),
     );

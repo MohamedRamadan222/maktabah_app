@@ -10,6 +10,8 @@ class BookCard extends StatelessWidget {
   final String author;
   final String rating;
   final String imageUrl;
+  final double? width;
+  final double? height;
   final VoidCallback? onBookmarkTap;
 
   const BookCard({
@@ -19,6 +21,8 @@ class BookCard extends StatelessWidget {
     required this.rating,
     required this.imageUrl,
     this.onBookmarkTap,
+    this.width,
+    this.height,
   });
 
   @override
@@ -34,8 +38,8 @@ class BookCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               child: Image.network(
                 imageUrl,
-                width: 125,
-                height: 178,
+                width: width ?? 125,
+                height: height ?? 178,
                 fit: BoxFit.cover,
               ),
             ),

@@ -65,7 +65,7 @@ class Header extends StatelessWidget {
                   'من وحي مكتبة',
                   style: TextStyle(fontSize: 10, color: Color(0xFF617286)),
                 ),
-                Gap(15),
+                Gap(5),
               ],
             ),
           ],

@@ -49,7 +49,7 @@ class _CategoryChipsState extends State<CategoryChips> {
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
                   color: isSelected ? const Color(0xFF1B2D45) : Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: isSelected
                         ? const Color(0xFF1B2D45)

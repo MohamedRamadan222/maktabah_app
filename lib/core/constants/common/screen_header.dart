@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../theme/app_colors.dart';
@@ -29,11 +30,7 @@ class ScreenHeader extends StatelessWidget {
                   color: const Color(0xffE6EEF6),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  LucideIcons.bookmark,
-                  size: 20,
-                  color: Color(0xff5B7A99),
-                ),
+                child: Icon(icon, size: 20, color: Color(0xff5B7A99)),
               )
             : CircleAvatar(
                 backgroundColor: Color(0xffE9E0D2),
@@ -53,6 +50,7 @@ class ScreenHeader extends StatelessWidget {
                 color: AppColors.primaryColor,
               ),
             ),
+            const Gap(6),
             Text(
               subTitle,
               textDirection: TextDirection.rtl,

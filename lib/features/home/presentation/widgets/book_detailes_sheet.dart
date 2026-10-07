@@ -4,9 +4,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
-const _mutedColor = Color(0xFF7187A0);
-const _borderColor = Color(0xFFE3EAF1);
-
 class BookDetailsSheet extends StatelessWidget {
   const BookDetailsSheet({super.key});
 
@@ -25,7 +22,7 @@ class BookDetailsSheet extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: DefaultTextStyle.merge(
-        style: const TextStyle(fontSize: 13, color: _mutedColor),
+        style: const TextStyle(fontSize: 13, color: AppColors.mutedColor),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -179,7 +176,7 @@ class BookDetailsSheet extends StatelessWidget {
                         style: TextStyle(height: 1.9),
                       ),
                       const Gap(20),
-                      const Divider(height: 1, color: _borderColor),
+                      const Divider(height: 1, color: AppColors.borderColor),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Row(
@@ -191,7 +188,7 @@ class BookDetailsSheet extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Divider(height: 1, color: _borderColor),
+                      const Divider(height: 1, color: AppColors.borderColor),
                       const Gap(18),
                       Row(
                         children: [
@@ -232,6 +229,7 @@ class BookDetailsSheet extends StatelessWidget {
                           style: TextStyle(fontSize: 9),
                         ),
                       ),
+                      const Gap(15)
                     ],
                   ),
                 ),
