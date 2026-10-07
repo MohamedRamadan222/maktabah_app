@@ -116,8 +116,27 @@ class HeroBanner extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Reserved for the hero photo.
-                      Expanded(child: SizedBox(height: 139 * scale)),
+                      Expanded(
+                        child: SizedBox(
+                          height: 139 * scale,
+                          child: Center(
+                            child: Image.network(
+                              'https://pngimg.com/uploads/book/book_PNG2111.png',
+                              width: 139 * scale,
+                              height: 139 * scale,
+                              fit: BoxFit.contain,
+                              semanticLabel: 'كتاب',
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    LucideIcons.bookOpen,
+                                    size: 60 * scale,
+                                    color: const Color(0xff172D46),
+                                    semanticLabel: 'كتاب',
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

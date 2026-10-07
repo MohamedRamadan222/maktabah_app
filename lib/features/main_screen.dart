@@ -22,7 +22,10 @@ class _MainScreenState extends State<MainScreen> {
     const BookMarksScreen(),
     const LibraryScreen(),
     const ExploreScreen(),
-    HomeScreen(onExploreTap: () => setState(() => _currentPageIndex = 2)),
+    HomeScreen(
+      onExploreTap: () => setState(() => _currentPageIndex = 2),
+      onLibraryTap: () => setState(() => _currentPageIndex = 1),
+    ),
   ];
 
   @override
