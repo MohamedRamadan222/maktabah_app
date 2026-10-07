@@ -10,7 +10,7 @@ void showSimpleSnackBar(BuildContext context, {required bool isAdded}) {
   final icon = isAdded ? LucideIcons.check : LucideIcons.bookmark;
 
   messenger
-    ..hideCurrentSnackBar()
+    ..clearSnackBars()
     ..showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,

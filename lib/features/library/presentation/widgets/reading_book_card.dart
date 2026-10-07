@@ -52,7 +52,9 @@ class ReadingBookCard extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            builder: (_) => const BookDetailsSheet(),
+            builder: (_) => const ScaffoldMessenger(
+              child: BookDetailsSheet(),
+            ),
           );
         },
         child: Column(

@@ -6,7 +6,7 @@ import '../../../../core/constants/common/show_simple_snackbar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../reader/presentation/views/reader.dart';
 
-class BookDetailsSheet extends StatefulWidget {
+  class BookDetailsSheet extends StatefulWidget {
   const BookDetailsSheet({super.key});
 
   @override
@@ -15,6 +15,8 @@ class BookDetailsSheet extends StatefulWidget {
 
 class _BookDetailsSheetState extends State<BookDetailsSheet> {
   bool isInLibrary = false;
+  final _contentKey = GlobalKey();
+  double? _sheetHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,13 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
 
-    return Directionality(
+    final content = Directionality(
       textDirection: TextDirection.rtl,
       child: DefaultTextStyle.merge(
         style: const TextStyle(fontSize: 13, color: AppColors.mutedColor),
         child: SingleChildScrollView(
           child: Column(
+            key: _contentKey,
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
@@ -165,7 +168,7 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
                 ),
               ),
               SafeArea(
-                top: false,
+
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 26, 20, 12),
                   child: Column(
@@ -231,9 +234,9 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
                             child: OutlinedButton.icon(
                               onPressed: () {
                                 setState(() {
-                                   showSimpleSnackBar(context, isAdded: !isInLibrary);
                                   isInLibrary = !isInLibrary;
                                 });
+                                showSimpleSnackBar(context, isAdded: isInLibrary);
                               },
                               style: buttonStyle,
                               icon: isInLibrary
@@ -254,7 +257,6 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
                           style: TextStyle(fontSize: 9),
                         ),
                       ),
-                      const Gap(15),
                     ],
                   ),
                 ),
@@ -263,6 +265,25 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
           ),
         ),
       ),
+    );
+
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          final contentHeight = _contentKey.currentContext?.size?.height;
+          if (contentHeight == null) return;
+          final height = constraints.constrainHeight(contentHeight);
+          if (_sheetHeight != height) {
+            setState(() => _sheetHeight = height);
+          }
+        });
+
+        return SizedBox(
+          height: _sheetHeight,
+          child: Scaffold(backgroundColor: Colors.white, body: content),
+        );
+      },
     );
   }
 }

@@ -44,7 +44,9 @@ class BookCard extends StatelessWidget {
                 top: Radius.circular(24),
               ),
             ),
-            builder: (_) => const BookDetailsSheet(),
+            builder: (_) => const ScaffoldMessenger(
+              child: BookDetailsSheet(),
+            ),
           );
         },
         child: SizedBox(
