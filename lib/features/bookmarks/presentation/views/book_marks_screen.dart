@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../../core/constants/common/custom_text_from_field.dart';
 import '../../../../core/constants/common/screen_header.dart';
 
 class BookMarksScreen extends StatefulWidget {

@@ -1,25 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/core/constants/common/custom_text_from_field.dart';
 import 'package:maktabah_app/core/constants/common/screen_header.dart';
 import 'package:maktabah_app/features/home/presentation/widgets/header.dart';
+import 'package:maktabah_app/shared/books/providers/books_providers.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/book_card.dart';
-import '../widgets/categores_items.dart';
+import '../widgets/categories_items.dart';
 import '../widgets/continue_reading_card.dart';
 import '../widgets/hero_panner.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   final VoidCallback? onExploreTap;
   final VoidCallback? onLibraryTap;
 
   const HomeScreen({super.key, this.onExploreTap, this.onLibraryTap});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoriesProvider);
+    final items = buildCategoryItems(categories.value ?? []);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 13),
@@ -120,33 +124,8 @@ class HomeScreen extends StatelessWidget {
                     const Gap(15),
                     // categories
                     CategoryChips(
-                      categories: const [
-                        CategoryItem(
-                          id: 'all',
-                          title: 'الكل',
-                          icon: LucideIcons.layoutGrid,
-                        ),
-                        CategoryItem(
-                          id: 'lit',
-                          title: 'أدب وروايات',
-                          icon: LucideIcons.bookOpen,
-                        ),
-                        CategoryItem(
-                          id: 'self',
-                          title: 'تطوير الذات',
-                          icon: LucideIcons.sprout,
-                        ),
-                        CategoryItem(
-                          id: 'hist',
-                          title: 'تاريخ وحضارة',
-                          icon: LucideIcons.landmark,
-                        ),
-                        CategoryItem(
-                          id: 'sci',
-                          title: 'علوم ومعرفة',
-                          icon: LucideIcons.atom,
-                        ),
-                      ],
+                      selectedId: 'all',
+                      categories: items,
                       onSelected: (c) {},
                     ),
                     const Gap(15),

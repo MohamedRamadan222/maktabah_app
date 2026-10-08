@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/core/theme/app_colors.dart';
 import 'package:maktabah_app/features/home/presentation/widgets/book_card.dart';
+import 'package:maktabah_app/shared/books/providers/books_providers.dart';
 
-import '../../../../core/constants/common/custom_text_from_field.dart';
-import '../../../../core/constants/common/screen_header.dart';
-import '../../../home/presentation/widgets/categores_items.dart';
+import 'package:maktabah_app/core/constants/common/custom_text_from_field.dart';
+import 'package:maktabah_app/core/constants/common/screen_header.dart';
+import 'package:maktabah_app/core/widgets/error_view.dart';
+import 'package:maktabah_app/core/widgets/loading_view.dart';
 
-class ExploreScreen extends StatefulWidget {
+import '../../../../core/widgets/empty_view.dart';
+import '../../../home/presentation/widgets/categories_items.dart';
+
+class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
+  ConsumerState<ExploreScreen> createState() => _ExploreScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen> {
+class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
+    final catalog = ref.watch(catalogProvider);
+    final categories = ref.watch(categoriesProvider);
+    final items = buildCategoryItems(categories.value ?? []);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 13),
@@ -40,68 +49,63 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     const Gap(20),
                     //categories items
                     CategoryChips(
-                      categories: const [
-                        CategoryItem(
-                          id: 'all',
-                          title: 'الكل',
-                          icon: LucideIcons.layoutGrid,
-                        ),
-                        CategoryItem(
-                          id: 'lit',
-                          title: 'أدب وروايات',
-                          icon: LucideIcons.bookOpen,
-                        ),
-                        CategoryItem(
-                          id: 'self',
-                          title: 'تطوير الذات',
-                          icon: LucideIcons.sprout,
-                        ),
-                        CategoryItem(
-                          id: 'hist',
-                          title: 'تاريخ وحضارة',
-                          icon: LucideIcons.landmark,
-                        ),
-                        CategoryItem(
-                          id: 'sci',
-                          title: 'علوم ومعرفة',
-                          icon: LucideIcons.atom,
-                        ),
-                      ],
+                      selectedId: 'all',
+                      categories: items,
                       onSelected: (c) {},
                     ),
                     const Gap(15),
                     // 12 books to discover
-                    Text(
-                      '١٢ كتابًا للاكتشاف',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: AppColors.mutedColor,
+                    catalog.when(
+                      loading: () =>
+                          SizedBox(height: 200, child: LoadingView()),
+                      error: (error, stack) => ErrorView(
+                        message: error.toString(),
+                        onRetry: () => ref.invalidate(catalogProvider),
                       ),
-                    ),
-                    const Gap(20),
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: 5,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 18,
-                              mainAxisSpacing: 14,
-                              mainAxisExtent: 315,
+                      data: (page) => page.books.isEmpty
+                          ? const EmptyView(message: 'لا توجد كتب حاليًا')
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '${page.total} كتابًا للاكتشاف',
+                                  style: TextStyle(
+                                    color: AppColors.mutedColor,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                                const Gap(20),
+                                Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: GridView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    itemCount: page.books.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 18,
+                                          mainAxisSpacing: 14,
+                                          mainAxisExtent: 315,
+                                        ),
+                                    itemBuilder: (context, index) {
+                                      final book = page.books[index];
+                                      return BookCard(
+                                        title: book.title,
+                                        author: book.author,
+                                        rating: book.rating.toStringAsFixed(1),
+                                        imageUrl: book.coverUrl,
+                                        width: 170,
+                                        height: 240,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                        itemBuilder: (context, index) => const BookCard(
-                          title: 'على مهل',
-                          author: 'نور إبراهيم',
-                          rating: '٤٫٦',
-                          imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-                          width: 170,
-                          height: 240,
-                        ),
-                      ),
                     ),
                   ],
                 ),

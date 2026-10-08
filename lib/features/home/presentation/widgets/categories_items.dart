@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/core/theme/app_colors.dart';
+import 'package:maktabah_app/shared/books/domain/entities/category.dart';
 
 class CategoryItem {
   final String id;
@@ -17,17 +18,21 @@ class CategoryItem {
 
 class CategoryChips extends StatefulWidget {
   final List<CategoryItem> categories;
+  final String selectedId;
   final ValueChanged<CategoryItem>? onSelected;
 
-  const CategoryChips({super.key, required this.categories, this.onSelected});
+  const CategoryChips({
+    super.key,
+    required this.categories,
+    this.onSelected,
+    required this.selectedId,
+  });
 
   @override
   State<CategoryChips> createState() => _CategoryChipsState();
 }
 
 class _CategoryChipsState extends State<CategoryChips> {
-  int _selected = 0;
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -37,19 +42,20 @@ class _CategoryChipsState extends State<CategoryChips> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: widget.categories.length,
-          separatorBuilder: (_, __) => const Gap(8),
+          separatorBuilder: (_, _) => const Gap(8),
           itemBuilder: (_, i) {
             final item = widget.categories[i];
-            final isSelected = i == _selected;
+            final isSelected = item.id == widget.selectedId;
             return GestureDetector(
               onTap: () {
-                setState(() => _selected = i);
                 widget.onSelected?.call(item);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
-                  color: isSelected ?  AppColors.primaryColor: AppColors.pageColor,
+                  color: isSelected
+                      ? AppColors.primaryColor
+                      : AppColors.pageColor,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: isSelected
@@ -85,4 +91,28 @@ class _CategoryChipsState extends State<CategoryChips> {
       ),
     );
   }
+}
+
+IconData categoryIcon(String name) {
+  switch (name) {
+    case 'feather':
+      return LucideIcons.feather;
+    case 'sprout':
+      return LucideIcons.sprout;
+    case 'history':
+      return LucideIcons.history;
+    case 'science':
+      return LucideIcons.atom;
+    default:
+      return LucideIcons.layoutGrid;
+  }
+}
+
+List<CategoryItem> buildCategoryItems(List<Category> categories) {
+  return [
+    const CategoryItem(id: 'all', title: 'الكل', icon: LucideIcons.layoutGrid),
+    ...categories.map(
+      (c) => CategoryItem(id: c.id, title: c.name, icon: categoryIcon(c.icon)),
+    ),
+  ];
 }

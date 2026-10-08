@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maktabah_app/core/theme/app_colors.dart';
 
 import 'features/main_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(
+      retry: ((retryCount, error) => null),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
