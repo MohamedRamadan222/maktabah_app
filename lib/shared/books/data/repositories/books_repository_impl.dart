@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:maktabah_app/core/error/failure.dart';
 import 'package:maktabah_app/shared/books/data/sources/books_api.dart';
+import 'package:maktabah_app/shared/books/domain/entities/book_details.dart';
 import 'package:maktabah_app/shared/books/domain/repositories/books_repository.dart';
-
 import 'package:maktabah_app/shared/books/domain/entities/book_page.dart';
 import 'package:maktabah_app/shared/books/domain/entities/category.dart';
 
@@ -28,6 +28,18 @@ class BooksRepositoryImpl implements BooksRepository {
         limit: limit,
       );
       return model.toEntity();
+    } on DioException catch (e) {
+      throw _mapDioError(e);
+    } catch (_) {
+      throw const AppFailure(message: 'تعذّر قراءة البيانات');
+    }
+  }
+
+  @override
+  Future<BookDetails> getBookDetails(String id) async {
+    try {
+      final bookDetails = await _api.fetchBookDetails(id);
+      return bookDetails.toEntity();
     } on DioException catch (e) {
       throw _mapDioError(e);
     } catch (_) {

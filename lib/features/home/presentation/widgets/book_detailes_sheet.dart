@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:maktabah_app/shared/books/providers/books_providers.dart';
 
 import '../../../../core/constants/common/show_simple_snackbar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../reader/presentation/views/reader.dart';
 
-  class BookDetailsSheet extends StatefulWidget {
-  const BookDetailsSheet({super.key});
+class BookDetailsSheet extends ConsumerStatefulWidget {
+  final String bookId;
+
+  const BookDetailsSheet({super.key, required this.bookId});
 
   @override
-  State<BookDetailsSheet> createState() => _BookDetailsSheetState();
+  ConsumerState<BookDetailsSheet> createState() => _BookDetailsSheetState();
 }
 
-class _BookDetailsSheetState extends State<BookDetailsSheet> {
+class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
   bool isInLibrary = false;
   final _contentKey = GlobalKey();
   double? _sheetHeight;
 
   @override
   Widget build(BuildContext context) {
+    final bookDetailsAsync = ref.watch(bookDetailsProvider(widget.bookId));
+
     final buttonStyle = OutlinedButton.styleFrom(
       foregroundColor: const Color(0xFF32679D),
       minimumSize: const Size.fromHeight(48),
@@ -168,7 +174,6 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
                 ),
               ),
               SafeArea(
-
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 26, 20, 12),
                   child: Column(
@@ -236,7 +241,10 @@ class _BookDetailsSheetState extends State<BookDetailsSheet> {
                                 setState(() {
                                   isInLibrary = !isInLibrary;
                                 });
-                                showSimpleSnackBar(context, isAdded: isInLibrary);
+                                showSimpleSnackBar(
+                                  context,
+                                  isAdded: isInLibrary,
+                                );
                               },
                               style: buttonStyle,
                               icon: isInLibrary

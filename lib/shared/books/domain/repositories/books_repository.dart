@@ -1,3 +1,4 @@
+import 'package:maktabah_app/shared/books/domain/entities/book_details.dart';
 import 'package:maktabah_app/shared/books/domain/entities/book_page.dart';
 import 'package:maktabah_app/shared/books/domain/entities/category.dart';
 
@@ -11,4 +12,5 @@ abstract class BooksRepository {
   });
 
   Future<List<Category>> getCategories();
+  Future<BookDetails> getBookDetails(String id);
 }

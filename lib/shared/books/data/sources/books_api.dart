@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:maktabah_app/core/network/api_constants.dart';
+import 'package:maktabah_app/shared/books/data/models/book_details_model.dart';
 import 'package:maktabah_app/shared/books/data/models/book_page_model.dart';
 import 'package:maktabah_app/shared/books/data/models/category_model.dart';
 
@@ -28,6 +29,13 @@ class BooksApi {
 
     final data = response.data as Map<String, dynamic>;
     return BookPageModel.fromEnvelope(data);
+  }
+
+  Future<BookDetailsModel> fetchBookDetails(String id) async {
+    final response = await _dio.get('${ApiConstants.apiPrefix}/books/$id');
+    final data = response.data as Map<String, dynamic>;
+    final book = data['data'] as Map<String, dynamic>;
+    return BookDetailsModel.fromJson(book);
   }
 
   Future<List<CategoryModel>> fetchCategories() async {
