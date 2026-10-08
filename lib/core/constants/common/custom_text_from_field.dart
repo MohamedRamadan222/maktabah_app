@@ -4,7 +4,9 @@ import 'package:gap/gap.dart';
 import '../../theme/app_colors.dart';
 
 class CustomTextFromField extends StatelessWidget {
-  const CustomTextFromField({super.key});
+  final ValueChanged<String> onSubmitted;
+
+  const CustomTextFromField({super.key, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,9 @@ class CustomTextFromField extends StatelessWidget {
           children: [
             const Icon(Icons.search, size: 20, color: Colors.grey),
             const Gap(10),
-            const Expanded(
+             Expanded(
               child: TextField(
+                onSubmitted: onSubmitted,
                 textAlign: TextAlign.start,
                 decoration: InputDecoration(
                   hintText: 'ابحث عن كتابك القادم...',

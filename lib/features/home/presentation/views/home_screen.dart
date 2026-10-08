@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/core/constants/common/custom_text_from_field.dart';
 import 'package:maktabah_app/core/constants/common/screen_header.dart';
+import 'package:maktabah_app/features/explore/providers/explore_providers.dart';
 import 'package:maktabah_app/features/home/presentation/widgets/header.dart';
 import 'package:maktabah_app/shared/books/providers/books_providers.dart';
 
@@ -24,13 +25,14 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(categoriesProvider);
     final items = buildCategoryItems(categories.value ?? []);
+    final query = ref.watch(exploreQueryProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 13),
         child: Column(
           children: [
             // search field
-            CustomTextFromField(),
+            CustomTextFromField(onSubmitted: (_) {}),
             const Gap(24),
             Expanded(
               child: SingleChildScrollView(
@@ -124,9 +126,11 @@ class HomeScreen extends ConsumerWidget {
                     const Gap(15),
                     // categories
                     CategoryChips(
-                      selectedId: 'all',
+                      selectedId: query.category,
                       categories: items,
-                      onSelected: (c) {},
+                      onSelected: (c) {
+                        ref.read(exploreQueryProvider.notifier).setCategory(c.id);
+                      },
                     ),
                     const Gap(15),
                     // books list
