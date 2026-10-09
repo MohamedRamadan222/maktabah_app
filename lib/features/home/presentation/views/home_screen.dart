@@ -143,6 +143,7 @@ class HomeScreen extends ConsumerWidget {
                           itemCount: 5,
                           separatorBuilder: (_, _) => const Gap(14),
                           itemBuilder: (_, i) => const BookCard(
+                            bookId: 'slow',
                             title: 'على مهل',
                             author: 'نور إبراهيم',
                             rating: '٤٫٦',

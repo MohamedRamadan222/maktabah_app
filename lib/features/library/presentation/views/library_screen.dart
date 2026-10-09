@@ -54,6 +54,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               mainAxisExtent: 315,
                             ),
                         itemBuilder: (context, index) => const ReadingBookCard(
+                          bookId: 'sea',
                           title: 'رسائل إلى البحر',
                           author: 'يوسف عادل',
                           imageUrl: 'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',

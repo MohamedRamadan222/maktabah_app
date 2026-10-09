@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-
 import '../../../../core/theme/app_colors.dart';
-import 'book_detailes_sheet.dart';
+import 'book_details_sheet.dart';
 
 class BookCard extends StatelessWidget {
   final String title;
@@ -14,6 +12,7 @@ class BookCard extends StatelessWidget {
   final double? width;
   final double? height;
   final VoidCallback? onBookmarkTap;
+  final String bookId;
 
   const BookCard({
     super.key,
@@ -24,6 +23,7 @@ class BookCard extends StatelessWidget {
     this.onBookmarkTap,
     this.width,
     this.height,
+    required this.bookId,
   });
 
   @override
@@ -40,13 +40,10 @@ class BookCard extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             backgroundColor: Colors.white,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(24),
-              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            builder: (_) => const ScaffoldMessenger(
-              child: BookDetailsSheet(),
-            ),
+            builder: (_) =>
+                ScaffoldMessenger(child: BookDetailsSheet(bookId: bookId)),
           );
         },
         child: SizedBox(

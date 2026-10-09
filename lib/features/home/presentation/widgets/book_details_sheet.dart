@@ -5,7 +5,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/shared/books/providers/books_providers.dart';
 
 import '../../../../core/constants/common/show_simple_snackbar.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/loading_view.dart';
+import '../../../../shared/books/domain/entities/book_details.dart';
 import '../../../reader/presentation/views/reader.dart';
 
 class BookDetailsSheet extends ConsumerStatefulWidget {
@@ -36,7 +40,7 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
 
-    final content = Directionality(
+    Widget buildContent(BookDetails details) => Directionality(
       textDirection: TextDirection.rtl,
       child: DefaultTextStyle.merge(
         style: const TextStyle(fontSize: 13, color: AppColors.mutedColor),
@@ -80,7 +84,7 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
                                 child: Image.network(
-                                  'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
+                                  details.book.coverUrl,
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, _, _) => const ColoredBox(
                                     color: Color(0xFFE2E1CD),
@@ -105,14 +109,14 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                                         color: const Color(0xFFCFDFEF),
                                       ),
                                     ),
-                                    child: const Text(
-                                      'أدب وروايات',
+                                    child: Text(
+                                      details.book.categoryName,
                                       style: TextStyle(fontSize: 10),
                                     ),
                                   ),
                                   const Gap(8),
-                                  const Text(
-                                    'أثر الضوء',
+                                  Text(
+                                    details.book.title,
                                     style: TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w800,
@@ -120,12 +124,12 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                                     ),
                                   ),
                                   const Gap(4),
-                                  const Text(
-                                    'ليلى مراد',
+                                  Text(
+                                    details.book.author,
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   const Gap(12),
-                                  const Wrap(
+                                  Wrap(
                                     spacing: 4,
                                     crossAxisAlignment:
                                         WrapCrossAlignment.center,
@@ -136,7 +140,7 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                                         color: Color(0xFFBF8D35),
                                       ),
                                       Text(
-                                        '٤٫٨',
+                                        details.book.rating.toStringAsFixed(1),
                                         style: TextStyle(
                                           fontSize: 11,
                                           color: AppColors.primaryColor,
@@ -188,20 +192,31 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                         ),
                       ),
                       const Gap(12),
-                      const Text(
-                        'في بيت قديم تحيط به الأشجار، تعثر سلمى على دفتر لا يحمل اسمًا. وبين صفحاته، تكتشف حكايات صغيرة عن الضوء الذي نتركه في حياة الآخرين، وعن الأشياء التي تنمو في صمت.',
+                      Text(
+                        details.book.description,
                         style: TextStyle(height: 1.9),
                       ),
                       const Gap(20),
                       const Divider(height: 1, color: AppColors.borderColor),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 18),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _BookStat('٢١٦ صفحة', 'حجم الكتاب التوضيحي'),
-                            _BookStat('العربية', 'لغة الكتاب'),
-                            _BookStat('٣ فصول', 'مقتطف متاح للقراءة'),
+                            _BookStat(
+                              '${details.book.pageCount} صفحة',
+                              'حجم الكتاب التوضيحي',
+                            ),
+                            _BookStat(
+                              details.book.language == 'ar'
+                                  ? 'العربية'
+                                  : details.book.language,
+                              'لغة الكتاب',
+                            ),
+                            _BookStat(
+                              '${details.chapters.length} فصول',
+                              'مقتطف متاح للقراءة',
+                            ),
                           ],
                         ),
                       ),
@@ -258,9 +273,9 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                         ],
                       ),
                       const Gap(12),
-                      const Center(
+                       Center(
                         child: Text(
-                          'كتاب ومؤلفة تخيليان؛ النصوص أصلية ومخصصة لتجربة القراءة.',
+                          details.notice,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 9),
                         ),
@@ -274,7 +289,40 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
         ),
       ),
     );
-
+    final closeButton = Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: IconButton.filled(
+          onPressed: () => Navigator.pop(context),
+          tooltip: 'إغلاق',
+          style: IconButton.styleFrom(
+            backgroundColor: const Color(0xFFEDF3F7),
+            foregroundColor: const Color(0xFF527397),
+            minimumSize: const Size(36, 36),
+            padding: const EdgeInsets.all(10),
+          ),
+          icon: const Icon(LucideIcons.x, size: 16),
+        ),
+      ),
+    );
+    final body = bookDetailsAsync.when(
+      data: (details) => buildContent(details),
+      loading: () => Stack(
+        fit: StackFit.expand,
+        children: [const LoadingView(), closeButton],
+      ),
+      error: (error, stack) => Stack(
+        fit: StackFit.expand,
+        children: [
+          ErrorView(
+            message: error is AppFailure ? error.message : 'حصل خطأ غير متوقع',
+            onRetry: () => ref.invalidate(bookDetailsProvider(widget.bookId)),
+          ),
+          closeButton,
+        ],
+      ),
+    );
     return LayoutBuilder(
       builder: (_, constraints) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -288,8 +336,8 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
         });
 
         return SizedBox(
-          height: _sheetHeight,
-          child: Scaffold(backgroundColor: Colors.white, body: content),
+          height: bookDetailsAsync.hasValue ? _sheetHeight : 300,
+          child: Scaffold(backgroundColor: Colors.white, body: body),
         );
       },
     );

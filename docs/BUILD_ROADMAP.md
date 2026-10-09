@@ -192,7 +192,7 @@ API response shapes and verified examples are in [API reference](API_RESEARCH.md
 
 [lib/features/home/presentation/widgets/book_card.dart](../lib/features/home/presentation/widgets/book_card.dart)  
 [lib/features/library/presentation/widgets/reading_book_card.dart](../lib/features/library/presentation/widgets/reading_book_card.dart)  
-[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_detailes_sheet.dart)  
+[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_details_sheet.dart)  
 [lib/features/explore/presentation/views/explore_screen.dart](../lib/features/explore/presentation/views/explore_screen.dart)  
 [lib/features/home/presentation/views/home_screen.dart](../lib/features/home/presentation/views/home_screen.dart)  
 [lib/features/library/presentation/views/library_screen.dart](../lib/features/library/presentation/views/library_screen.dart)
@@ -243,7 +243,7 @@ API response shapes and verified examples are in [API reference](API_RESEARCH.md
 ### Step 31 Replace the empty reader screen
 
 [lib/features/reader/presentation/views/reader.dart](../lib/features/reader/presentation/views/reader.dart)  
-[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_detailes_sheet.dart)
+[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_details_sheet.dart)
 
 - [ ] Make `ReadBook` a ConsumerStatefulWidget accepting required `bookId`, `initialChapterIndex` defaulting to `0`, and `initialScroll` defaulting to `0.0`. Keep the current chapter index in its state.
 - [ ] Watch `chapterProvider((bookId: widget.bookId, index: currentIndex))`. Render its title and paragraphs in an RTL SingleChildScrollView with a ScrollController.
@@ -347,7 +347,7 @@ API response shapes and verified examples are in [API reference](API_RESEARCH.md
 
 ### Step 44 Connect save controls to shared state
 
-[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_detailes_sheet.dart)  
+[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_details_sheet.dart)  
 [lib/features/home/presentation/widgets/book_card.dart](../lib/features/home/presentation/widgets/book_card.dart)  
 [lib/features/library/presentation/widgets/reading_book_card.dart](../lib/features/library/presentation/widgets/reading_book_card.dart)  
 [lib/core/constants/common/show_simple_snackbar.dart](../lib/core/constants/common/show_simple_snackbar.dart)
@@ -388,7 +388,7 @@ API response shapes and verified examples are in [API reference](API_RESEARCH.md
 
 `lib/features/reader/presentation/reader_navigation.dart` **create this file**  
 [lib/features/reader/presentation/views/reader.dart](../lib/features/reader/presentation/views/reader.dart)  
-[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_detailes_sheet.dart)
+[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_details_sheet.dart)
 
 - [ ] Create the new `openReader` helper with `Future<void> openReader(BuildContext context, WidgetRef ref, {required String bookId, int? chapter, double? scroll})`. Without an explicit chapter, await `readingHistoryProvider.future` and read the saved position for the book, defaulting to chapter 0 and scroll 0. With an explicit chapter, use it and the supplied scroll, defaulting to 0. Check `context.mounted` after awaiting, then push ReadBook with those values.
 - [ ] After the chapter loads and layout finishes, restore `initialScroll * maxScrollExtent`. Suppress progress writes during restoration.
@@ -578,7 +578,7 @@ API response shapes and verified examples are in [API reference](API_RESEARCH.md
 
 [lib/features/home/presentation/views/home_screen.dart](../lib/features/home/presentation/views/home_screen.dart)  
 [lib/features/explore/presentation/views/explore_screen.dart](../lib/features/explore/presentation/views/explore_screen.dart)  
-[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_detailes_sheet.dart)  
+[lib/features/home/presentation/widgets/book_detailes_sheet.dart](../lib/features/home/presentation/widgets/book_details_sheet.dart)  
 [lib/features/library/presentation/views/library_screen.dart](../lib/features/library/presentation/views/library_screen.dart)  
 [lib/features/bookmarks/presentation/views/book_marks_screen.dart](../lib/features/bookmarks/presentation/views/book_marks_screen.dart)  
 [lib/features/reader/presentation/views/reader.dart](../lib/features/reader/presentation/views/reader.dart)

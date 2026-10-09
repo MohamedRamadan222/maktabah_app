@@ -139,6 +139,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                                     itemBuilder: (context, index) {
                                       final book = page.books[index];
                                       return BookCard(
+                                        bookId: book.id,
                                         title: book.title,
                                         author: book.author,
                                         rating: book.rating.toStringAsFixed(1),

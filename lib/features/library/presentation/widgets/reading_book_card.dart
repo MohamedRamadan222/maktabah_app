@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../home/presentation/widgets/book_detailes_sheet.dart';
+import '../../../home/presentation/widgets/book_details_sheet.dart';
 
 class ReadingBookCard extends StatelessWidget {
   final String title;
@@ -13,6 +13,7 @@ class ReadingBookCard extends StatelessWidget {
   final String imageUrl;
   final double progress; // 0..1
   final VoidCallback? onBookmarkTap;
+  final String bookId;
 
   const ReadingBookCard({
     super.key,
@@ -23,6 +24,7 @@ class ReadingBookCard extends StatelessWidget {
     required this.imageUrl,
     required this.progress,
     this.onBookmarkTap,
+    required this.bookId,
   });
 
   String _toArabic(String s) {
@@ -52,9 +54,8 @@ class ReadingBookCard extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            builder: (_) => const ScaffoldMessenger(
-              child: BookDetailsSheet(),
-            ),
+            builder: (_) =>
+                ScaffoldMessenger(child: BookDetailsSheet(bookId: bookId)),
           );
         },
         child: Column(
