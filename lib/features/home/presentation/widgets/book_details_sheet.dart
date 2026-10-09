@@ -230,7 +230,7 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const ReadBook(),
+                                    builder: (_) =>  ReadBook(bookId: widget.bookId,),
                                   ),
                                 );
                               },

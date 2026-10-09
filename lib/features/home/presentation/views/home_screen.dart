@@ -129,7 +129,9 @@ class HomeScreen extends ConsumerWidget {
                       selectedId: query.category,
                       categories: items,
                       onSelected: (c) {
-                        ref.read(exploreQueryProvider.notifier).setCategory(c.id);
+                        ref
+                            .read(exploreQueryProvider.notifier)
+                            .setCategory(c.id);
                       },
                     ),
                     const Gap(15),
