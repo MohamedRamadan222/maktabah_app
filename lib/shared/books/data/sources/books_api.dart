@@ -3,6 +3,7 @@ import 'package:maktabah_app/core/network/api_constants.dart';
 import 'package:maktabah_app/shared/books/data/models/book_details_model.dart';
 import 'package:maktabah_app/shared/books/data/models/book_page_model.dart';
 import 'package:maktabah_app/shared/books/data/models/category_model.dart';
+import 'package:maktabah_app/shared/books/data/models/home_data_model.dart';
 
 class BooksApi {
   final Dio _dio;
@@ -47,6 +48,13 @@ class BooksApi {
         .map((item) => CategoryModel.fromJson(item as Map<String, dynamic>))
         .toList();
   }
+
+  Future<HomeDataModel> fetchHome() async {
+    final response = await _dio.get('${ApiConstants.apiPrefix}/home');
+    final json = response.data as Map<String, dynamic>;
+    final data = json['data'] as Map<String, dynamic>;
+    return HomeDataModel.fromJson(data);
+  }
+
+
 }
-
-

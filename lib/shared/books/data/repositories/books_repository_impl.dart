@@ -2,9 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:maktabah_app/core/error/failure.dart';
 import 'package:maktabah_app/shared/books/data/sources/books_api.dart';
 import 'package:maktabah_app/shared/books/domain/entities/book_details.dart';
+import 'package:maktabah_app/shared/books/domain/entities/home_data.dart';
 import 'package:maktabah_app/shared/books/domain/repositories/books_repository.dart';
 import 'package:maktabah_app/shared/books/domain/entities/book_page.dart';
 import 'package:maktabah_app/shared/books/domain/entities/category.dart';
+
 import '../../../../core/error/dio_error_mapper.dart';
 
 class BooksRepositoryImpl implements BooksRepository {
@@ -53,6 +55,18 @@ class BooksRepositoryImpl implements BooksRepository {
     try {
       final models = await _api.fetchCategories();
       return models.map((m) => m.toEntity()).toList();
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    } catch (_) {
+      throw const AppFailure(message: 'تعذّر قراءة البيانات');
+    }
+  }
+
+  @override
+  Future<HomeData> getHome() async {
+    try {
+      final model = await _api.fetchHome();
+      return model.toEntity();
     } on DioException catch (e) {
       throw mapDioError(e);
     } catch (_) {

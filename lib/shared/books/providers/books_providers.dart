@@ -5,6 +5,7 @@ import 'package:maktabah_app/shared/books/data/sources/books_api.dart';
 import 'package:maktabah_app/shared/books/domain/entities/book_details.dart';
 import 'package:maktabah_app/shared/books/domain/entities/book_page.dart';
 import 'package:maktabah_app/shared/books/domain/entities/category.dart';
+import 'package:maktabah_app/shared/books/domain/entities/home_data.dart';
 import 'package:maktabah_app/shared/books/domain/repositories/books_repository.dart';
 
 final booksApiProvider = Provider<BooksApi>((ref) {
@@ -33,4 +34,9 @@ final bookDetailsProvider = FutureProvider.family<BookDetails, String>((
 ) {
   final repository = ref.watch(booksRepositoryProvider);
   return repository.getBookDetails(id);
+});
+
+final homeDataProvider = FutureProvider<HomeData>((ref){
+  final repository = ref.watch(booksRepositoryProvider);
+  return repository.getHome();
 });

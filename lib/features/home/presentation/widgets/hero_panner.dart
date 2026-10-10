@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../shared/books/domain/entities/home_hero.dart';
+
 class HeroBanner extends StatelessWidget {
+  final HomeHero hero;
   final VoidCallback onExploreTap;
 
-  const HeroBanner({super.key, required this.onExploreTap});
+  const HeroBanner({super.key, required this.onExploreTap, required this.hero});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class HeroBanner extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final scale = (constraints.maxWidth / 326).clamp(0.0, 1.2);
+          final covers = hero.books.take(3).map((b) => b.coverUrl).toList();
 
           return Container(
             clipBehavior: Clip.antiAlias,
@@ -59,7 +63,7 @@ class HeroBanner extends StatelessWidget {
                                 Gap(5 * scale),
                                 Flexible(
                                   child: Text(
-                                    'مساحة لفضولك',
+                                    hero.eyebrow,
                                     style: TextStyle(
                                       fontSize: 9 * scale,
                                       height: 1.3,
@@ -71,7 +75,7 @@ class HeroBanner extends StatelessWidget {
                             ),
                             Gap(9 * scale),
                             Text(
-                              'حكايتك تبدأ\nبصفحة.',
+                              hero.title,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 24 * scale,
@@ -101,7 +105,7 @@ class HeroBanner extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      'استكشف الكتب',
+                                      hero.actionLabel,
                                       style: TextStyle(
                                         fontSize: 10 * scale,
                                         height: 1.2,
@@ -123,7 +127,14 @@ class HeroBanner extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                           height: 139 * scale,
-                          child: Center(child: _BooksStack(scale: scale)),
+                          child: covers.isEmpty
+                              ? const SizedBox.shrink()
+                              : Center(
+                                  child: _BooksStack(
+                                    scale: scale,
+                                    urls: covers,
+                                  ),
+                                ),
                         ),
                       ),
                     ],
@@ -149,15 +160,9 @@ Widget _ring(double size) => Container(
 
 class _BooksStack extends StatelessWidget {
   final double scale;
+  final List<String> urls;
 
-  const _BooksStack({required this.scale});
-
-  // بدّل الروابط دي وقت الربط (ورا-شمال، ورا-يمين، قدام)
-  static const _urls = [
-    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-    'https://maktabah-demo-api.ashahin.workers.dev/images/light.png',
-  ];
+  const _BooksStack({required this.scale, required this.urls});
 
   Widget _book(
     String url,
@@ -201,12 +206,12 @@ class _BooksStack extends StatelessWidget {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          // البيج: ورا شمال
-          _book(_urls[0], -0.17, const Offset(-20, 6)),
-          // الغامق: ورا يمين
-          _book(_urls[1], 0.30, const Offset(24, 4)),
+          // ورا شمال
+          if (urls.length > 1) _book(urls[1], -0.17, const Offset(-20, 6)),
+          // ورا يمين
+          if (urls.length > 2) _book(urls[2], 0.30, const Offset(24, 4)),
           // اللي قدام
-          _book(_urls[2], -0.10, const Offset(-2, -6), w: 88, h: 124),
+          _book(urls[0], -0.10, const Offset(-2, -6), w: 88, h: 124),
         ],
       ),
     );

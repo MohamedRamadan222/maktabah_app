@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'reader_icon_button.dart';
 
 class ReaderAppBar extends StatelessWidget implements PreferredSizeWidget {

@@ -53,7 +53,6 @@ class ReaderBottomBar extends StatelessWidget {
                             color: Color(0xff879398),
                           ),
                         ),
-                        const SizedBox(height: 6),
                         SizedBox(
                           width: 104,
                           child: LinearProgressIndicator(

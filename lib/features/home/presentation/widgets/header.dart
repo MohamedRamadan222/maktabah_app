@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:maktabah_app/shared/books/domain/entities/home_quote.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  final HomeQuote quote;
+
+  const Header({super.key, required this.quote});
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +55,18 @@ class Header extends StatelessWidget {
                   ],
                 ),
                 const Gap(14),
-                const Text(
-                  'بعض الكتب لا نُنهيها، بل نبدأ بها حكاية\n جديدة.',
-                  style: TextStyle(
+                 Text(
+                 quote.text,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     height: 1.9,
                   ),
                 ),
                 const Gap(12),
-                const Text(
-                  'من وحي مكتبة',
-                  style: TextStyle(fontSize: 10, color: Color(0xFF617286)),
+                 Text(
+                  quote.attribution,
+                  style: const TextStyle(fontSize: 10, color: Color(0xFF617286)),
                 ),
                 Gap(5),
               ],
