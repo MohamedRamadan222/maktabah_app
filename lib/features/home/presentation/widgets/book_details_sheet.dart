@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:maktabah_app/shared/books/providers/books_providers.dart';
+import 'package:maktabah_app/shared/books/providers/saved_books_provider.dart';
 
 import '../../../../core/constants/common/show_simple_snackbar.dart';
 import '../../../../core/error/failure.dart';
@@ -22,14 +23,13 @@ class BookDetailsSheet extends ConsumerStatefulWidget {
 }
 
 class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
-  bool isInLibrary = false;
   final _contentKey = GlobalKey();
   double? _sheetHeight;
 
   @override
   Widget build(BuildContext context) {
     final bookDetailsAsync = ref.watch(bookDetailsProvider(widget.bookId));
-
+    final isInLibrary = ref.watch(savedBooksProvider).contains(widget.bookId);
     final buttonStyle = OutlinedButton.styleFrom(
       foregroundColor: const Color(0xFF32679D),
       minimumSize: const Size.fromHeight(48),
@@ -230,7 +230,8 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) =>  ReadBook(bookId: widget.bookId,),
+                                    builder: (_) =>
+                                        ReadBook(bookId: widget.bookId),
                                   ),
                                 );
                               },
@@ -253,12 +254,17 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                           Expanded(
                             child: OutlinedButton.icon(
                               onPressed: () {
-                                setState(() {
-                                  isInLibrary = !isInLibrary;
-                                });
+                                final saved = ref.read(
+                                  savedBooksProvider.notifier,
+                                );
+                                if (isInLibrary) {
+                                  saved.unsave(widget.bookId);
+                                } else {
+                                  saved.save(widget.bookId);
+                                }
                                 showSimpleSnackBar(
                                   context,
-                                  isAdded: isInLibrary,
+                                  isAdded: !isInLibrary,
                                 );
                               },
                               style: buttonStyle,
@@ -273,7 +279,7 @@ class _BookDetailsSheetState extends ConsumerState<BookDetailsSheet> {
                         ],
                       ),
                       const Gap(12),
-                       Center(
+                      Center(
                         child: Text(
                           details.notice,
                           textAlign: TextAlign.center,

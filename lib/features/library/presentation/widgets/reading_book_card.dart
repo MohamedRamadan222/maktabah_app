@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/constants/common/show_simple_snackbar.dart';
+import '../../../../shared/books/providers/saved_books_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../home/presentation/widgets/book_details_sheet.dart';
 
-class ReadingBookCard extends StatelessWidget {
+class ReadingBookCard extends ConsumerWidget {
   final String title;
   final String author;
   final String category;
   final String rating;
   final String imageUrl;
-  final double progress; // 0..1
-  final VoidCallback? onBookmarkTap;
+  final double progress;
   final String bookId;
 
   const ReadingBookCard({
@@ -22,8 +24,7 @@ class ReadingBookCard extends StatelessWidget {
     required this.category,
     required this.rating,
     required this.imageUrl,
-    required this.progress,
-    this.onBookmarkTap,
+    this.progress = 0,
     required this.bookId,
   });
 
@@ -37,8 +38,9 @@ class ReadingBookCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final percent = _toArabic('${(progress * 100).round()}');
+    final isSaved = ref.watch(savedBooksProvider).contains(bookId);
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -86,9 +88,17 @@ class ReadingBookCard extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: onBookmarkTap,
+                  onTap: () {
+                    final saved = ref.read(savedBooksProvider.notifier);
+                    if (isSaved) {
+                      saved.unsave(bookId);
+                    } else {
+                      saved.save(bookId);
+                    }
+                    showSimpleSnackBar(context, isAdded: !isSaved);
+                  },
                   child: Icon(
-                    LucideIcons.bookmark,
+                    isSaved ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
                     size: 16,
                     color: AppColors.primaryColor,
                   ),
@@ -125,30 +135,32 @@ class ReadingBookCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(10),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 4,
-                backgroundColor: Colors.black12,
-                color: AppColors.primaryColor,
+            if (progress > 0) ...[
+              const Gap(10),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 4,
+                  backgroundColor: Colors.black12,
+                  color: AppColors.primaryColor,
+                ),
               ),
-            ),
-            const Gap(6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'تقدم القراءة',
-                  style: TextStyle(fontSize: 10, color: Colors.grey),
-                ),
-                Text(
-                  '$percent٪',
-                  style: const TextStyle(fontSize: 10, color: Colors.grey),
-                ),
-              ],
-            ),
+              const Gap(6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'تقدم القراءة',
+                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                  ),
+                  Text(
+                    '$percent٪',
+                    style: const TextStyle(fontSize: 10, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:maktabah_app/core/constants/common/show_simple_snackbar.dart';
+
+import '../../../../shared/books/providers/saved_books_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'book_details_sheet.dart';
 
-class BookCard extends StatelessWidget {
+class BookCard extends ConsumerWidget {
   final String title;
   final String author;
   final String rating;
   final String imageUrl;
   final double? width;
   final double? height;
-  final VoidCallback? onBookmarkTap;
   final String bookId;
 
   const BookCard({
@@ -20,14 +23,14 @@ class BookCard extends StatelessWidget {
     required this.author,
     required this.rating,
     required this.imageUrl,
-    this.onBookmarkTap,
     this.width,
     this.height,
     required this.bookId,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isSaved = ref.watch(savedBooksProvider).contains(bookId);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: GestureDetector(
@@ -76,9 +79,17 @@ class BookCard extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: onBookmarkTap,
+                    onTap: () {
+                      final saved = ref.read(savedBooksProvider.notifier);
+                      if (isSaved) {
+                        saved.unsave(bookId);
+                      } else {
+                        saved.save(bookId);
+                      }
+                      showSimpleSnackBar(context, isAdded: !isSaved);
+                    },
                     child: Icon(
-                      LucideIcons.bookmark,
+                      isSaved ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
                       size: 16,
                       color: AppColors.primaryColor,
                     ),

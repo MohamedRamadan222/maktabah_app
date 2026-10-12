@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maktabah_app/core/theme/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/storage/shared_prefs_provider.dart';
 import 'features/main_screen.dart';
 
-void main() {
-  runApp(ProviderScope(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferencesWithCache.create(
+    cacheOptions: const SharedPreferencesWithCacheOptions(
+      allowList: {savedBooksKey},
+    ),
+  );
+
+  runApp(
+    ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
       retry: ((retryCount, error) => null),
-      child: const MyApp()));
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
