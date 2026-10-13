@@ -137,23 +137,21 @@ class _MainScreenState extends State<MainScreen> {
             ),
             overlayColor: const WidgetStatePropertyAll(Colors.transparent),
             iconTheme: WidgetStateProperty.resolveWith(
-                  (states) => IconThemeData(
+              (states) => IconThemeData(
                 size: 20,
                 color: states.contains(WidgetState.selected)
                     ? AppColors.primaryColor
                     : AppColors.mutedColor,
               ),
             ),
-            labelTextStyle: WidgetStateProperty.resolveWith(
-                  (states) {
-                final selected = states.contains(WidgetState.selected);
-                return TextStyle(
-                  fontSize: 10,
-                  fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
-                  color: selected ? AppColors.primaryColor : AppColors.mutedColor,
-                );
-              },
-            ),
+            labelTextStyle: WidgetStateProperty.resolveWith((states) {
+              final selected = states.contains(WidgetState.selected);
+              return TextStyle(
+                fontSize: 10,
+                fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+                color: selected ? AppColors.primaryColor : AppColors.mutedColor,
+              );
+            }),
           ),
           child: NavigationBar(
             selectedIndex: _currentPageIndex,

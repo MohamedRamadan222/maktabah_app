@@ -37,7 +37,10 @@ class ReaderChapterSelector extends StatelessWidget {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<int>(
-                  value: summaries.isEmpty ? null : chapterIndex,
+                  value:
+                      summaries.any((summary) => summary.index == chapterIndex)
+                      ? chapterIndex
+                      : null,
                   isExpanded: true,
                   isDense: true,
                   alignment: AlignmentDirectional.centerStart,

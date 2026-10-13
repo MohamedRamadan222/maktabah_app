@@ -26,7 +26,7 @@ class CustomTextFromField extends StatelessWidget {
           children: [
             const Icon(Icons.search, size: 20, color: Colors.grey),
             const Gap(10),
-             Expanded(
+            Expanded(
               child: TextField(
                 onSubmitted: onSubmitted,
                 textAlign: TextAlign.start,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ReaderIconButton extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double size;
   final double iconSize;
   final double borderRadius;

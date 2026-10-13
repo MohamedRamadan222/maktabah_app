@@ -55,6 +55,4 @@ class BooksApi {
     final data = json['data'] as Map<String, dynamic>;
     return HomeDataModel.fromJson(data);
   }
-
-
 }

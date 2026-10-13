@@ -152,7 +152,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                                 ),
                                 if (page.isLoadingMore) ...[
                                   Gap(20),
-                                  const Center(child: CircularProgressIndicator()),
+                                  const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                   Gap(20),
                                 ],
                               ],

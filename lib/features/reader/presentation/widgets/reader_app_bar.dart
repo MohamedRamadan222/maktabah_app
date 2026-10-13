@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'reader_icon_button.dart';
 
 class ReaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String author;
   final VoidCallback onBackPressed;
-  final VoidCallback onBookmarkPressed;
+  final VoidCallback? onBookmarkPressed;
+  final bool isBookmarked;
   final VoidCallback onThemePressed;
 
   const ReaderAppBar({
@@ -16,6 +18,7 @@ class ReaderAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onBackPressed,
     required this.onBookmarkPressed,
     required this.onThemePressed,
+    this.isBookmarked = false,
   });
 
   @override
@@ -68,7 +71,9 @@ class ReaderAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         ReaderIconButton(
-          icon: CupertinoIcons.bookmark,
+          icon: isBookmarked
+              ? CupertinoIcons.bookmark_fill
+              : CupertinoIcons.bookmark,
           onPressed: onBookmarkPressed,
         ),
         const SizedBox(width: 8),

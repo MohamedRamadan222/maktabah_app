@@ -9,11 +9,19 @@ class SavedBooksNotifier extends Notifier<Set<String>> {
   }
 
   void save(String bookId) {
-    state = {...state, bookId};
+    final newBooks = {...state, bookId};
+    state = newBooks;
+    ref
+        .read(sharedPrefsProvider)
+        .setStringList(savedBooksKey, newBooks.toList());
   }
 
   void unsave(String bookId) {
-    state = state.where((id) => id != bookId).toSet();
+    final newBooks = state.where((id) => id != bookId).toSet();
+    state = newBooks;
+    ref
+        .read(sharedPrefsProvider)
+        .setStringList(savedBooksKey, newBooks.toList());
   }
 }
 

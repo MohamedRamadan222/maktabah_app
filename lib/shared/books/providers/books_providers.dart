@@ -36,7 +36,7 @@ final bookDetailsProvider = FutureProvider.family<BookDetails, String>((
   return repository.getBookDetails(id);
 });
 
-final homeDataProvider = FutureProvider<HomeData>((ref){
+final homeDataProvider = FutureProvider<HomeData>((ref) {
   final repository = ref.watch(booksRepositoryProvider);
   return repository.getHome();
 });

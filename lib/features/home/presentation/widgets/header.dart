@@ -55,8 +55,8 @@ class Header extends StatelessWidget {
                   ],
                 ),
                 const Gap(14),
-                 Text(
-                 quote.text,
+                Text(
+                  quote.text,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -64,9 +64,12 @@ class Header extends StatelessWidget {
                   ),
                 ),
                 const Gap(12),
-                 Text(
+                Text(
                   quote.attribution,
-                  style: const TextStyle(fontSize: 10, color: Color(0xFF617286)),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Color(0xFF617286),
+                  ),
                 ),
                 Gap(5),
               ],

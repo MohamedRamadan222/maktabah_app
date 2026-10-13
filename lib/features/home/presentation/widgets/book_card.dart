@@ -89,7 +89,9 @@ class BookCard extends ConsumerWidget {
                       showSimpleSnackBar(context, isAdded: !isSaved);
                     },
                     child: Icon(
-                      isSaved ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
+                      isSaved
+                          ? LucideIcons.bookmarkCheck
+                          : LucideIcons.bookmark,
                       size: 16,
                       color: AppColors.primaryColor,
                     ),

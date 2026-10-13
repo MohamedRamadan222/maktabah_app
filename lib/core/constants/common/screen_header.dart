@@ -32,14 +32,14 @@ class ScreenHeader extends StatelessWidget {
                 child: Icon(icon, size: 20, color: Color(0xff5B7A99)),
               )
             : SizedBox(
-          width: 35,
-              child: CircleAvatar(
+                width: 35,
+                child: CircleAvatar(
                   backgroundColor: Color(0xffE9E0D2),
                   child: Center(
                     child: Icon(icon, size: 20, color: AppColors.goldColor),
                   ),
                 ),
-            ),
+              ),
         Spacer(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
